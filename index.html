@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PEACE PLACE</title>
+    <link rel="stylesheet" href="https://jdan.github.io/98.css/98.css">
+
+    <style>
+        /* 基础样式 */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #008080; /* 经典绿色背景 */
+            font-family: 'Pixelated MS Sans Serif', Arial, sans-serif;
+        }
+
+        .desktop {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        
+
+        /* 桌面图标样式 */
+        .desktop-icons {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .icon img {
+            width: 48px;
+            height: 48px;
+        }
+
+        .icon span {
+            font-size: 12px;
+            color: white;
+            text-shadow: 1px 1px #000;
+            margin-top: 10px;
+        }
+
+        /* 工具栏样式 */
+        .taskbar {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 32px;
+            background: rgb(195, 198, 202);
+            display: flex;
+            align-items: center;
+            border-top: 2px solid #fff;
+            box-shadow: inset 1px 1px #808080, inset -1px -1px #fff;
+        }
+
+        .start-button {
+            display: flex;
+            align-items: center;
+            margin-left: 5px;
+            padding: 1px 7px;
+            background: rgb(195, 198, 202);
+            color: #000;
+            font-weight: bold;
+            font-size: 14px;
+            letter-spacing: 1px;
+            cursor: pointer;
+            box-shadow: 1px 1px #808080, -1px -1px #fff, 1.5px 1.5px #000;
+        }
+
+        .start-button img {
+            margin-right: 3px;
+            width: 16px;
+            height: 16px;
+        }
+
+        .taskbar-icons {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            margin-left: 10px;
+        }
+
+        .taskbar-clock {
+            margin-right: 10px;
+            font-size: 12px;
+            color: #000;
+        }
+
+        /* My World 窗口样式 */
+        .my-world-window {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 100px;
+        }
+
+        .my-world-window .my-world-body {
+            text-align: center;
+            padding: 10px;
+            position: relative;
+        }
+
+        .my-world-window .my-world-body button {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Instagram 窗口样式 */
+        .instagram-window {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            height: 80%;
+            overflow: hidden;
+        }
+
+        .instagram-window .iframe-container {
+            width: 100%;
+            height: 100%;
+        }
+
+        .instagram-window .iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Third 窗口样式 */
+        .third-window {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 350px;
+            height: 200px;
+        }
+
+        .third-window .third-body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 80%;
+            text-align: center;
+        }
+
+        .third-window .field-row input {
+            text-align: center;
+            width: 80%;
+        }
+
+        .third-window .third-body button {
+            margin-top:50px;
+            padding: 5px 15px;
+        }
+
+        /* Avatar 窗口样式 */
+.avatar-window {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 300px;
+}
+
+.avatar-body {
+    padding: 10px;
+    text-align: center;
+}
+
+.avatar-grid {
+    display: flex; /* 改為 Flexbox */
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中 */
+    gap: 12px; /* 保持子項間距 */
+
+}
+
+.avatar-option {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.avatar-option img {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+}
+
+.avatar-option.selected {
+    border: 2px solid #000;
+}
+
+.avatar-body button {
+    position: relative; /* 如果需要更精確控制 */
+    top: 80px; /* 向上移動 10px */
+}
+
+.door-icon img {
+    width: 100px !important; /* 針對 Door 圖標設置圖片大小 */
+    height: 100px !important;
+}
+
+ .hidden {
+    display: none;
+}
+
+.new-screen {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('icon/bg4.png'); /* 新背景图片 */
+        background-size: cover; /* 覆盖整个画布 */
+        background-position: center; /* 居中显示 */
+        background-repeat: no-repeat; /* 防止重复 */
+        display: none;
+        z-index: 10;
+    }
+
+    /* 保持原有 GIF 和头像样式 */
+    .new-screen img#campfire-gif {
+    position: absolute;
+    top: 56%; /* 让 GIF 垂直居中 */
+    left: 57%; /* 让 GIF 水平居中 */
+    transform: translate(-50%, -50%); /* 完全居中 */
+    width: 200px; /* 根据需要设置宽度 */
+    height: auto; /* 自动调整高度 */
+}
+
+    .new-screen img {
+        position: absolute;
+        width: 150px;
+        height: 150px;
+    }
+
+.window-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 80%;
+}
+
+.window-body p {
+    margin: 10px 0;
+}
+
+.window-body button {
+    margin-top: 10px;
+    padding: 5px 15px;
+}
+
+
+/* Zone 1 */
+.zone-window-zone1 {
+    width: 350px;
+    height: 200px;
+    background-color: #fce4ec; /* 自定義背景顏色 */
+}
+
+/* Zone 2 */
+.zone-window-zone2 {
+    width: 350px;
+    height: 200px;
+    background-color: #fce4ec;
+}
+
+/* Zone 3 */
+.zone-window-zone3 {
+    width: 350px;
+    height: 300px;
+    background-color: #fce4ec;
+}
+
+/* Zone 4 */
+.zone-window-zone4 {
+    width: 350px;
+    height: 300px;
+    background-color: #fce4ec;
+}
+
+.independent-window-zone2 .window-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 90%;
+    text-align: center;
+    font-size: 15px;
+}
+
+.independent-window-zone1 {
+        width: 400px;
+        height: 350px;
+        display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 90%;
+    text-align: center;
+    font-size: 15px;
+    }
+
+    </style>
+</head>
+<body>
+    <!-- 桌面 -->
+    <div class="desktop">
+        <!-- 桌面图标 -->
+        <div class="desktop-icons">
+            <div class="icon" onclick="showMyWorldWindow()">
+                <img src="icon/computer_explorer_cool-0.png" alt="My World">
+                <span>My World</span>
+            </div>
+            <div class="icon" onclick="showInstagramWindow()">
+                <img src="icon/msie1-2.png" alt="World">
+                <span>World</span>
+            </div>
+            <div class="icon" onclick="showThirdWindow()">
+                <img src="icon/standby_monitor_moon-3.png" alt="Peace Place" style="width: 70px; height: 70px;">
+                <span>Peace Place</span>
+            </div>
+             <!-- Door 圖標 (初始隱藏) -->
+    <div class="icon door-icon" onclick="handleDoorClick()" style="display: none;">
+        <img src="icon/door.png" alt="Door">
+        <span>Door</span>
+         </div>
+    </div>
+</div>
+
+        <!-- 工具栏 -->
+        <div class="taskbar">
+            <div class="start-button">
+                <img src="icon/pngwing.com.png" alt="Start" style="width: 24px; height: 24px;">
+                <span>Start</span>
+            </div>
+            <div class="taskbar-icons"></div>
+            <div class="taskbar-clock">9:39 PM</div>
+        </div>
+    </div>
+
+    <!-- My World 窗口 -->
+    <div class="window my-world-window">
+        <div class="title-bar">
+            <div class="title-bar-text">Your World</div>
+            <div class="title-bar-controls">
+                <button aria-label="Close" onclick="closeMyWorldWindow()"></button>
+            </div>
+        </div>
+        <div class="my-world-body">
+            <p>Hello, user! This is your little world, but it is still empty for now.</p>
+            <button class="default" onclick="closeMyWorldWindow()">OK</button>
+        </div>
+    </div>
+
+    <!-- Instagram 窗口 -->
+    <div class="window instagram-window">
+        <div class="title-bar">
+            <div class="title-bar-text">Instagram</div>
+            <div class="title-bar-controls">
+                <button aria-label="Close" onclick="closeInstagramWindow()"></button>
+            </div>
+        </div>
+        <div class="iframe-container">
+            <iframe src="ins.html"></iframe>
+        </div>
+    </div>
+
+    <!-- Third 窗口 -->
+    <div class="window third-window">
+        <div class="title-bar">
+            <div class="title-bar-text">Peace Place</div>
+            <div class="title-bar-controls">
+                <button aria-label="Close" onclick="closeThirdWindow()"></button>
+            </div>
+        </div>
+        <div class="third-body">
+            <div class="text-row">
+                <p>Welcome!</p>
+                <p>What would you like to be called?</p>
+            </div>
+            <input id="text17" type="text" />
+            <button class="default" onclick="submitName()">Submit</button>
+        </div>
+    </div>
+
+    <!-- Avatar 窗口 -->
+    <div class="window avatar-window">
+        <div class="title-bar">
+            <div class="title-bar-text">Select Avatar</div>
+            <div class="title-bar-controls">
+                <button aria-label="Close" onclick="closeAvatarWindow()"></button>
+            </div>
+        </div>
+        <div class="avatar-body">
+            <p>Select your avatar</p>
+            <div class="avatar-grid">
+                <div class="avatar-option" onclick="selectAvatar(this)">
+                    <img src="icon/a1.png" alt="Avatar 1">
+                </div>
+                <div class="avatar-option" onclick="selectAvatar(this)">
+                    <img src="icon/a2.png" alt="Avatar 2">
+                </div>
+                <div class="avatar-option" onclick="selectAvatar(this)">
+                    <img src="icon/a3.png" alt="Avatar 3">
+                </div>
+                <div class="avatar-option" onclick="selectAvatar(this)">
+                    <img src="icon/a4.png" alt="Avatar 4">
+                </div>
+            </div>
+            <button class="default" onclick="confirmAvatar()">Confirm</button>
+        </div>
+    </div>
+    
+
+    <!-- 新画面 -->
+    <div class="new-screen">
+        <!-- 替换后的 GIF -->
+        <img id="campfire-gif" src="icon/campfire.gif" alt="Campfire Animation">
+    </div>
+
+    <!-- 在 body 中添加隐藏的音频元素 -->
+<audio id="background-music" src="icon/Ninety Seconds for Celeste.mp3" loop></audio>
+
+
+    <!-- 动态时钟 JavaScript -->
+    <script>
+    let userName = ''; // 保存用户名
+
+    // 全域保存：新畫面容器 & 舊畫面頭像容器
+    let avatarElement = null;               // 舊畫面用的頭像 <img>
+    let avatarPosition = { x: 0, y: 0 };    // 舊畫面頭像座標
+    let newAvatarContainer = null;          // 新畫面的容器
+
+    // ★ 用來存放我們所顯示的 4 個窗口的 DOM 物件
+    let fourWindows = [];
+    
+        function updateClock() {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const timeString = `${hours % 12 || 12}:${minutes < 10 ? '0' : ''}${minutes} ${hours >= 12 ? 'PM' : 'AM'}`;
+            document.querySelector('.taskbar-clock').textContent = timeString;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        function showMyWorldWindow() {
+            document.querySelector('.my-world-window').style.display = 'block';
+        }
+
+        function closeMyWorldWindow() {
+            document.querySelector('.my-world-window').style.display = 'none';
+        }
+
+        function showInstagramWindow() {
+            document.querySelector('.instagram-window').style.display = 'block';
+        }
+
+        function closeInstagramWindow() {
+            document.querySelector('.instagram-window').style.display = 'none';
+        }
+
+        function showThirdWindow() {
+            document.querySelector('.third-window').style.display = 'block';
+        }
+
+        function closeThirdWindow() {
+            document.querySelector('.third-window').style.display = 'none';
+        }
+
+        function showAvatarWindow() {
+            document.querySelector('.avatar-window').style.display = 'block';
+        }
+
+        function closeAvatarWindow() {
+            document.querySelector('.avatar-window').style.display = 'none';
+        }
+
+        function submitName() {
+    const nameInput = document.getElementById('text17').value.trim();
+    if (nameInput) {
+        userName = nameInput; // 存储名字
+        closeThirdWindow();
+        showAvatarWindow();
+    } else {
+        alert('Please enter your name!');
+    }
+}
+
+        function selectAvatar(selectedElement) {
+            document.querySelectorAll('.avatar-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            selectedElement.classList.add('selected');
+        }
+
+    function confirmAvatar() {
+    const selectedAvatar = document.querySelector('.avatar-option.selected');
+    if (selectedAvatar) {
+        const avatarImgSrc = selectedAvatar.querySelector('img').src;
+
+        // 如果头像容器不存在，则创建
+        let avatarContainer = document.getElementById('avatar-container');
+        if (!avatarContainer) {
+            // 创建父容器
+            avatarContainer = document.createElement('div');
+            avatarContainer.id = 'avatar-container';
+            avatarContainer.style.position = 'absolute';
+
+            // 动态计算页面中心
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+            avatarPosition.x = screenWidth / 2 - 50; // 减去容器宽度的一半
+            avatarPosition.y = screenHeight / 2 - 50; // 减去容器高度的一半
+
+            avatarContainer.style.left = `${avatarPosition.x}px`;
+            avatarContainer.style.top = `${avatarPosition.y}px`;
+
+            document.body.appendChild(avatarContainer);
+
+            // 创建头像
+            avatarElement = document.createElement('img');
+            avatarElement.src = avatarImgSrc;
+            avatarElement.style.width = '150px';
+            avatarElement.style.height = '150px';
+
+            // 创建名字标签
+            const nameTag = document.createElement('div');
+            nameTag.textContent = userName; // 设置名字
+            nameTag.style.width = '150px';
+            nameTag.style.textAlign = 'center';
+            nameTag.style.marginTop = '-45px'; // 调整位置
+            nameTag.style.fontSize = '20px';
+            nameTag.style.color = 'white';
+            nameTag.style.textShadow = '1px 1px 2px black';
+
+            // 将头像和名字添加到容器
+            avatarContainer.appendChild(avatarElement);
+            avatarContainer.appendChild(nameTag);
+
+            // 添加键盘事件监听
+            document.addEventListener('keydown', moveAvatar);
+        }
+
+        // 显示 Door 图标
+        showDoorIcon();
+
+        closeAvatarWindow(); // 关闭窗口
+    } else {
+        alert('Please select an avatar!');
+    }
+    setTimeout(() => {
+        showFourWindowsInSequence();
+      }, 2000);
+    }
+
+
+
+function showDoorIcon() {
+    const doorIcon = document.querySelector('.door-icon');
+    if (doorIcon) {
+        doorIcon.style.display = 'flex'; // 顯示 Door 圖標
+    }
+}
+
+
+function moveAvatar(event) {
+    const step = 30; // 每次移动的距离
+    const avatarContainer = document.getElementById('avatar-container');
+    if (!avatarContainer) return; // 如果没有容器则返回
+
+    switch (event.key) {
+        case 'ArrowUp':
+            avatarPosition.y -= step;
+            break;
+        case 'ArrowDown':
+            avatarPosition.y += step;
+            break;
+        case 'ArrowLeft':
+            avatarPosition.x -= step;
+            break;
+        case 'ArrowRight':
+            avatarPosition.x += step;
+            break;
+        default:
+            return; // 忽略其他按键
+    }
+
+    // 更新容器位置
+    avatarContainer.style.left = `${avatarPosition.x}px`;
+    avatarContainer.style.top = `${avatarPosition.y}px`;
+
+    checkCollision();
+}
+        
+
+    function checkCollision() {
+            const doorIcon = document.querySelector('.door-icon img');
+            const doorRect = doorIcon.getBoundingClientRect();
+            const avatarRect = avatarElement.getBoundingClientRect();
+
+            if (
+                avatarRect.left < doorRect.right &&
+                avatarRect.right > doorRect.left &&
+                avatarRect.top < doorRect.bottom &&
+                avatarRect.bottom > doorRect.top
+            ) {
+                // 切换到新画面
+                removeFourWindows();
+                switchToNewScreen();
+            }
+        }
+
+        function switchToNewScreen() {
+      // 隱藏原有內容
+      document.querySelector('.desktop').classList.add('hidden');
+
+      // 顯示 new-screen
+      const newScreen = document.querySelector('.new-screen');
+      newScreen.style.display = 'block';
+
+      // 1. 建立一個容器 (newAvatarContainer)，和舊畫面做法一致
+      newAvatarContainer = document.createElement('div');
+      newAvatarContainer.id = 'new-avatar-container';
+      newAvatarContainer.style.position = 'absolute';
+      newAvatarContainer.style.left = `${avatarPosition.x}px`;
+      newAvatarContainer.style.top = `${avatarPosition.y}px`;
+      newScreen.appendChild(newAvatarContainer);
+
+      // 2. 建立「新的頭像元素」並放入容器
+      const newAvatarImage = document.createElement('img');
+      newAvatarImage.src = avatarElement.src; // 跟舊畫面相同頭像
+      newAvatarImage.style.width = '150px';
+      newAvatarImage.style.height = '150px';
+      newAvatarContainer.appendChild(newAvatarImage);
+
+    const newNameTag = document.createElement('div');
+    newNameTag.textContent = userName;
+    newNameTag.style.width = '150px';
+    newNameTag.style.textAlign = 'center';
+    newNameTag.style.marginTop = '105px'; 
+    newNameTag.style.fontSize = '20px';
+    newNameTag.style.color = 'white';
+    newNameTag.style.textShadow = '1px 1px 2px black';
+
+    newAvatarContainer.appendChild(newNameTag);
+
+      // 4. 移除舊畫面的鍵盤監聽
+      document.removeEventListener('keydown', moveAvatar);
+
+      // 5. 新畫面重新加上鍵盤監聽
+      document.addEventListener('keydown', moveAvatarInNewScreen);
+
+      // 播放背景音樂
+      const backgroundMusic = document.getElementById('background-music');
+      if (backgroundMusic) {
+        backgroundMusic.play();
+      }
+    }
+
+    // 新畫面移動：移動的是 newAvatarContainer
+    function moveAvatarInNewScreen(event) {
+      if (!newAvatarContainer) return; // 如果容器還沒建立，直接返回
+
+      const step = 30;
+      switch (event.key) {
+        case 'ArrowUp':
+          avatarPosition.y -= step;
+          break;
+        case 'ArrowDown':
+          avatarPosition.y += step;
+          break;
+        case 'ArrowLeft':
+          avatarPosition.x -= step;
+          break;
+        case 'ArrowRight':
+          avatarPosition.x += step;
+          break;
+        default:
+          return;
+      }
+
+      // 更新容器位置
+      newAvatarContainer.style.left = `${avatarPosition.x}px`;
+      newAvatarContainer.style.top = `${avatarPosition.y}px`;
+
+      // 這裡如果有需要偵測「區域碰撞」(Zone)則可呼叫 checkCollisionInNewScreen();
+      checkCollisionInNewScreen();
+    }
+    
+// ★ 新畫面碰撞檢測(Zone)
+function checkCollisionInNewScreen() {
+      if (!newAvatarContainer) return;
+      const avatarRect = newAvatarContainer.getBoundingClientRect(); // 取用容器座標
+
+      interactionZones.forEach((zone) => {
+        const zoneRect = {
+          left: zone.x,
+          right: zone.x + zone.width,
+          top: zone.y,
+          bottom: zone.y + zone.height,
+        };
+
+        if (
+          avatarRect.left < zoneRect.right &&
+          avatarRect.right > zoneRect.left &&
+          avatarRect.top < zoneRect.bottom &&
+          avatarRect.bottom > zoneRect.top
+        ) {
+          openZoneWindow(zone.id);
+        }
+      });
+    }
+
+// 1. 依序顯示四個 98.css 預設窗口
+function showFourWindowsInSequence() {
+      // 如果想同時顯示，也可一次顯示
+      // 這裡示範「依序」每隔 0.8 秒顯示一個
+
+      const positions = [
+        { left: 1200, top: 70 },
+        { left: 980, top: 550 },
+        { left: 660, top: 300 },
+        { left: 260, top: 140 }
+      ];
+
+      let index = 0;
+      function showNext() {
+        if (index >= 4) return; // 四個都出現完了
+
+        const pos = positions[index];
+        // ★ 建立視窗
+        const w = createOneDefaultWindow(index, pos.left, pos.top);
+        document.body.appendChild(w);
+        fourWindows.push(w); // ★ 推到全域陣列裡
+
+        index++;
+        setTimeout(showNext, 3000);
+      }
+      showNext();
+    }
+
+    const windowTitles = ['⬅', '⬅⬅', '⬅⬅⬅', '⬅⬅⬅⬅'];
+    const windowGifs = [
+  'icon/rain.gif',
+  'icon/rain3.gif',
+  'icon/rain2.gif',
+  'icon/rain4.gif'
+];
+
+
+function createOneDefaultWindow(index, left, top) {
+  const w = document.createElement('div');
+  w.classList.add('window');
+  w.style.position = 'absolute';
+  w.style.left = `${left}px`;
+  w.style.top = `${top}px`;
+  w.style.width = '250px';
+  w.style.height = '250px';
+  w.style.zIndex = '2';
+
+  const gifPath = windowGifs[index] || '';
+  const title = windowTitles[index] || `Window ${index + 1}`;
+
+  w.innerHTML = `
+    <div class="title-bar">
+      <div class="title-bar-text">${title}</div>
+      <div class="title-bar-controls">
+        <button aria-label="Close" onclick="this.closest('.window').remove()"></button>
+      </div>
+    </div>
+    <!-- Window body -->
+    <div class="window-body" 
+         style="
+           width: 100%;
+           height: calc(100% - 25px); /* 扣掉標題欄高度 */
+           margin: 0;
+           padding: 0;
+           overflow: hidden;       /* 關鍵：隱藏溢出 */
+         ">
+      ${
+        gifPath
+          ? `<img src="${gifPath}" 
+                   alt="${title} GIF" 
+                   style="
+                     width: 100%;
+                     height: 100%;
+                     object-fit: cover; /* 使 GIF 填滿容器 */
+                     object-position: center center; /* 置中 */
+                   ">`
+          : '<p>No GIF available</p>'
+      }
+    </div>
+  `;
+  return w;
+}
+
+
+
+    // 2. 當 Avatar 與 Door 碰撞後，把四個視窗都移除
+    function removeFourWindows() {
+      fourWindows.forEach(w => {
+        if (w && w.parentNode) {
+          w.parentNode.removeChild(w);
+        }
+      });
+      // 清空陣列
+      fourWindows = [];
+    }
+
+// 定义四个区域的位置和对应的窗口信息
+const interactionZones = [
+    { id: 'zone1', x: 580, y: 200, width: 30, height: 40, message: 'Welcome to Zone 1!' },
+    { id: 'zone2', x: 800, y: 480, width: 90, height: 40, message: 'This is Zone 2!' },
+    { id: 'zone3', x: 340, y: 560, width: 140, height: 30, message: 'You reached Zone 3!' },
+    { id: 'zone4', x: 860, y: 250, width: 40, height: 30, message: 'Zone 4 discovered!' },
+];
+
+function createZoneWindows() {
+    interactionZones.forEach((zone) => {
+        const zoneWindow = document.createElement('div');
+        zoneWindow.classList.add('window', `zone-window-${zone.id}`);
+        zoneWindow.style.display = 'none'; // 默認隱藏
+        zoneWindow.style.position = 'absolute';
+        zoneWindow.style.zIndex = '1000'; // 確保窗口在最上層
+
+        // 根據 zoneId 設置不同的標題
+        let windowTitle = '';
+        switch (zone.id) {
+            case 'zone1':
+                windowTitle = 'Squirrel';
+                break;
+            case 'zone2':
+                windowTitle = 'Camp fire';
+                break;
+            case 'zone3':
+                windowTitle = 'TV';
+                break;
+            case 'zone4':
+                windowTitle = 'Refrigerator';
+                break;
+            default:
+                windowTitle = 'Default Zone';
+        }
+
+        zoneWindow.innerHTML = `
+            <div class="title-bar">
+                <div class="title-bar-text">${windowTitle}</div> <!-- 動態設置標題 -->
+                <div class="title-bar-controls">
+                    <button aria-label="Close" onclick="closeZoneWindow('${zone.id}')"></button>
+                </div>
+            </div>
+            <div class="window-body zone-content-${zone.id}">
+                <p>${zone.message}</p>
+                <button onclick="closeZoneWindow('${zone.id}')">OK</button>
+            </div>
+        `;
+
+        document.body.appendChild(zoneWindow);
+    });
+}
+
+// 关闭窗口函数
+function closeZoneWindow(zoneId) {
+    const zoneWindow = document.querySelector(`.zone-window-${zoneId}`);
+    if (zoneWindow) zoneWindow.style.display = 'none';
+}
+
+
+function openZoneWindow(zoneId) {
+    const zoneWindow = document.querySelector(`.zone-window-${zoneId}`);
+    if (zoneWindow) {
+        zoneWindow.style.display = 'block';
+        zoneWindow.style.left = '50%'; // 居中显示窗口
+        zoneWindow.style.top = '50%';
+        zoneWindow.style.transform = 'translate(-50%, -50%)';
+
+        const zoneContent = zoneWindow.querySelector(`.zone-content-${zoneId}`);
+        if (zoneContent) {
+            if (zoneId === 'zone1') {
+                zoneContent.innerHTML = `
+                    <p>There is no one else on this island... </p>
+                    <p>Tell me your story, and I can help you write it in a diary.</p>
+                    <button class="zone-button" data-zone-id="zone1" onclick="createIndependentWindow('zone1')">ଘ(੭*ˊᵕˋ)੭✩‧₊˚</button>
+                `;
+            } else if (zoneId === 'zone2') {
+                zoneContent.innerHTML = `
+                    <p>Welcome here. Your head is full of information after a long day.</p>
+                    <p>What you need is to think of nothing for a few minutes...</p>
+                    <button class="zone-button" data-zone-id="zone2" onclick="createIndependentWindow('zone2')">_(¦3」∠)_</button>
+                `;
+            } else if (zoneId === 'zone3') {
+                zoneContent.innerHTML = `
+                    <p>Movie list:</p>
+                    <textarea style="width:100%; height:50px;">Secret data...</textarea>
+                    <button class="zone-button" data-zone-id="zone3" onclick="createIndependentWindow('zone3')">OK</button>
+                `;
+            } else if (zoneId === 'zone4') {
+                zoneContent.innerHTML = `
+                    <p>Recipe：</p>
+                    <ul>
+                        
+                    </ul>
+                    <button class="zone-button" data-zone-id="zone4" onclick="createIndependentWindow('zone4')">OK</button>
+                `;
+            }
+        }
+    }
+}
+
+function switchToNewScreen() {
+      // 隱藏桌面
+      document.querySelector('.desktop').classList.add('hidden');
+
+      // 顯示 new-screen
+      const newScreen = document.querySelector('.new-screen');
+      newScreen.style.display = 'block';
+
+      // ★ 建立 newAvatarContainer
+      newAvatarContainer = document.createElement('div');
+      newAvatarContainer.id = 'new-avatar-container';
+      newAvatarContainer.style.position = 'absolute';
+      newAvatarContainer.style.left = `${avatarPosition.x}px`;
+      newAvatarContainer.style.top = `${avatarPosition.y}px`;
+      // 確保新畫面容器在前景
+      newAvatarContainer.style.zIndex = '9999'; 
+      newScreen.appendChild(newAvatarContainer);
+
+      // ★ 建立新的頭像
+      const newAvatarImage = document.createElement('img');
+      newAvatarImage.src = avatarElement.src;
+      newAvatarImage.style.width = '150px';
+      newAvatarImage.style.height = '150px';
+      newAvatarContainer.appendChild(newAvatarImage);
+
+      // ★ 建立新的名字標籤
+      const newNameTag = document.createElement('div');
+      newNameTag.textContent = userName;
+      newNameTag.style.width = '150px';
+      newNameTag.style.textAlign = 'center';
+      newNameTag.style.marginTop = '105px'; 
+      newNameTag.style.fontSize = '20px';
+      newNameTag.style.color = 'white';
+      newNameTag.style.textShadow = '1px 1px 2px black';
+
+      newAvatarContainer.appendChild(newNameTag);
+
+      // 移除舊畫面的鍵盤事件
+      document.removeEventListener('keydown', moveAvatar);
+
+      // 新畫面鍵盤事件
+      document.addEventListener('keydown', moveAvatarInNewScreen);
+
+      // 播放音樂
+      const backgroundMusic = document.getElementById('background-music');
+      if (backgroundMusic) backgroundMusic.play();
+    }
+
+
+// 初始化区域窗口
+document.addEventListener('DOMContentLoaded', () => {
+    createZoneWindows();
+});
+
+function handleZoneButtonClick(zoneId) {
+    const currentWindow = document.querySelector(`.zone-window-${zoneId}`);
+    if (currentWindow) {
+        currentWindow.style.display = 'none'; // 隐藏当前窗口
+    }
+
+    // 创建一个新的独立窗口
+    createIndependentWindow(zoneId);
+}
+
+function createIndependentWindow(zoneId) {
+    // 关闭当前 Zone 窗口
+    const currentWindow = document.querySelector(`.zone-window-${zoneId}`);
+    if (currentWindow) {
+        currentWindow.style.display = 'none';
+    }
+
+    // 创建新窗口
+    const newWindow = document.createElement('div');
+    newWindow.classList.add('window', `independent-window-${zoneId}`);
+    newWindow.style.position = 'absolute';
+    newWindow.style.top = '50%';
+    newWindow.style.left = '50%';
+    newWindow.style.transform = 'translate(-50%, -50%)';
+    newWindow.style.zIndex = '1000';
+    newWindow.style.overflow = 'hidden';
+
+    // 设置大小和背景色与原窗口一致
+    const zoneWindowStyle = getComputedStyle(currentWindow);
+    newWindow.style.width = zoneWindowStyle.width;
+    newWindow.style.height = zoneWindowStyle.height;
+    newWindow.style.backgroundColor = zoneWindowStyle.backgroundColor;
+
+    // 设置大小
+    if (zoneId === 'zone1') {
+        newWindow.style.width = '400px';
+        newWindow.style.height = '330px';
+    } else if (zoneId === 'zone2') {
+        newWindow.style.width = '400px';
+        newWindow.style.height = '350px';
+    }
+
+
+
+    // 根据 zoneId 定义内容
+    let windowContent = '';
+    switch (zoneId) {
+        case 'zone1':
+    windowContent = `
+        <div class="title-bar">
+            <div class="title-bar-text">Independent Window 1</div>
+            <div class="title-bar-controls">
+                <button aria-label="Close" onclick="closeIndependentWindow('${zoneId}')"></button>
+            </div>
+        </div>
+        <div class="window-body">
+            <p>Tell me about your day.</p>
+            <!-- 98.css 默認輸入框 -->
+            <div class="field-row-stacked" style="width: 300px; margin-top: 20px;">
+                <label for="text20">Additional notes</label>
+                <textarea id="text20" rows="8"></textarea>
+            </div>
+            <button onclick="closeIndependentWindow('${zoneId}')">Summit</button>
+        </div>
+    `;
+    break;
+
+            case 'zone2':
+            // Zone 2 的特殊倒计时窗口内容
+            windowContent = `
+                <div class="title-bar">
+                    <div class="title-bar-text">Relaxation Countdown</div>
+                    <div class="title-bar-controls">
+                        <button aria-label="Close" id="close-button-zone2" disabled>Close</button>
+                    </div>
+                </div>
+                <div class="window-body">
+                    <p>Relax and enjoy the countdown:</p>
+                    <p id="countdown-timer">7:00</p>
+                    <img src="icon/fire.gif" alt="meditation" style="width: 100%; height: auto; margin-top: 20px;">
+                </div>
+            `;
+            break;
+            
+        case 'zone3':
+            windowContent = `
+                <div class="title-bar">
+                    <div class="title-bar-text">Independent Window 3</div>
+                    <div class="title-bar-controls">
+                        <button aria-label="Close" onclick="closeIndependentWindow('${zoneId}')"></button>
+                    </div>
+                </div>
+                <div class="window-body">
+                    <p>This is a new window for Zone 3.</p>
+                    <button onclick="closeIndependentWindow('${zoneId}')">Close</button>
+                </div>
+            `;
+            break;
+        case 'zone4':
+            windowContent = `
+                <div class="title-bar">
+                    <div class="title-bar-text">Independent Window 4</div>
+                    <div class="title-bar-controls">
+                        <button aria-label="Close" onclick="closeIndependentWindow('${zoneId}')"></button>
+                    </div>
+                </div>
+                <div class="window-body">
+                    <p>This is a new window for Zone 4.</p>
+                    <button onclick="closeIndependentWindow('${zoneId}')">Close</button>
+                </div>
+            `;
+            break;
+        default:
+            windowContent = `
+                <div class="title-bar">
+                    <div class="title-bar-text">Default Independent Window</div>
+                    <div class="title-bar-controls">
+                        <button aria-label="Close" onclick="closeIndependentWindow('${zoneId}')"></button>
+                    </div>
+                </div>
+                <div class="window-body">
+                    <p>This is a default window.</p>
+                    <button onclick="closeIndependentWindow('${zoneId}')">Close</button>
+                </div>
+            `;
+            break;
+    }
+
+    newWindow.innerHTML = windowContent;
+    document.body.appendChild(newWindow);
+
+    const titleBar = newWindow.querySelector('.title-bar');
+if (titleBar) {
+    titleBar.style.position = 'absolute'; // 标题栏固定在窗口顶部
+    titleBar.style.top = '0';
+    titleBar.style.left = '0';
+    titleBar.style.width = '100%';
+    titleBar.style.zIndex = '1000'; // 确保标题栏在最上层
+}
+
+// 为窗口内容留出空间
+const windowBody = newWindow.querySelector('.window-body');
+if (windowBody) {
+    windowBody.style.marginTop = '25px'; // 给标题栏留出空间
+}
+
+
+    // 如果是 Zone 2，启动倒计时逻辑
+    if (zoneId === 'zone2') {
+        setupCountdownForZone2(newWindow);
+    }
+}
+
+// 倒计时逻辑函数（针对 Zone 2）
+function setupCountdownForZone2(newWindow) {
+    let remainingTime = 420; // 7分钟 = 420秒
+    const timerElement = newWindow.querySelector('#countdown-timer');
+    const closeButton = newWindow.querySelector('#close-button-zone2');
+
+    // 检查元素是否存在
+    if (!timerElement) {
+        console.error('Countdown timer element not found.');
+        return;
+    }
+
+    const timerInterval = setInterval(() => {
+        const minutes = Math.floor(remainingTime / 60);
+        const seconds = remainingTime % 60;
+
+        console.log(`Updating countdown: ${minutes}:${seconds}`); // 调试信息
+
+        timerElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        remainingTime--;
+
+        if (remainingTime < 0) {
+            clearInterval(timerInterval);
+            closeButton.removeAttribute('disabled'); // 启用关闭按钮
+            alert('Countdown finished! Window will now close.');
+            document.body.removeChild(newWindow); // 自动关闭窗口
+        }
+    }, 1000);
+}
+
+
+// 关闭窗口函数
+function closeIndependentWindow(zoneId) {
+    const independentWindow = document.querySelector(`.independent-window-${zoneId}`);
+    if (independentWindow) {
+        document.body.removeChild(independentWindow);
+    }
+}
+
+
+
+    </script>
+</body>
+</html>
+
+
+
